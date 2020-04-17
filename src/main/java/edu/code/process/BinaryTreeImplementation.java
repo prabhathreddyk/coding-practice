@@ -20,6 +20,9 @@ public class BinaryTreeImplementation {
 
 		System.out.println("kth(2nd) smallest in BST : " + kthSmallestInBST(balancedBinaryTree, 2));
 		System.out.println("kth(2nd) smallest in Not BST : " + kthSmallestInBST(binaryTree, 2));
+		
+		// Recursive 
+		System.out.println(" Inorder Recursive: "+ inOrderTraverseIterative(balancedBinaryTree));
 
 	}
 

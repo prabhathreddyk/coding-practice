@@ -2,6 +2,7 @@ package edu.code.process.utility;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import edu.code.model.BinaryTree;
 import edu.code.model.BinaryTreeNode;
@@ -43,6 +44,55 @@ public class BinaryTreeUtility {
 		traversedArray.add(node.getValue());
 		// Right
 		inOrderTraverse(node.getRight(), currentDepth+1, binaryTree, traversedArray);
+	}
+	
+	/**
+	 * InOrder Traversal using Recursive
+	 * @param binaryTree
+	 * @return
+	 */
+	public static List<Integer> inOrderTraverseIterative(BinaryTree binaryTree) {
+		BinaryTreeNode node = binaryTree.getRoot();
+		int currentDepth = 0;
+		int maxDepth = 0;
+		int minDepth = 0;
+		List<Integer> traversedArray = new ArrayList<Integer>();
+		Stack<BinaryTreeNode> treeStack = new Stack<BinaryTreeNode>();
+		while(true){
+			if (node == null){
+				if (treeStack.isEmpty()){
+					break;
+				}
+				node = treeStack.pop();
+				currentDepth--;
+			} else{
+				currentDepth++;
+				if (node.getLeft() == null && node.getRight() == null ){
+					if (currentDepth > maxDepth){
+						maxDepth = currentDepth;
+					}
+					if (minDepth == 0 || currentDepth < minDepth){
+						minDepth = currentDepth;
+					}
+				}
+				// Left
+				if (node.getLeft() != null){
+					treeStack.push(node);
+					node = node.getLeft();
+					continue;
+				}
+			}
+			
+			// Root or leaf Node
+			traversedArray.add(node.getValue());
+			
+			// Right
+			node = node.getRight();
+		}
+		binaryTree.setMaxDepth(maxDepth);
+		binaryTree.setMinDepth(minDepth);
+		System.out.println("Traversed tree : " + traversedArray.toString() + ", MaxDepth : " + maxDepth + ", MinDepth : "+ minDepth);
+		return traversedArray;
 	}
 	
 	/**
