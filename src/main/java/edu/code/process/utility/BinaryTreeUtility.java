@@ -45,6 +45,11 @@ public class BinaryTreeUtility {
 		inOrderTraverse(node.getRight(), currentDepth+1, binaryTree, traversedArray);
 	}
 	
+	/**
+	 * Returns Max Depth in a Binary Tree
+	 * @param node
+	 * @return
+	 */
 	public static int maxDepth(BinaryTreeNode node){
 		if (node == null){
 			return 0;
@@ -52,10 +57,30 @@ public class BinaryTreeUtility {
 		return 1+ Math.max(maxDepth(node.getLeft()), maxDepth(node.getRight()));
 	}
 	
+	/**
+	 * Returns Minimum depth in a Binary Tree
+	 * @param node
+	 * @return
+	 */
 	public static int minDepth(BinaryTreeNode node){
 		if (node == null){
 			return 0;
 		}
 		return 1+ Math.min(maxDepth(node.getLeft()), maxDepth(node.getRight()));
+	}
+	
+	/**
+	 * Returns kthSmallest value in BST 
+	 * returns -1 if BT is not BST
+	 * @param binaryTree
+	 * @return
+	 */
+	public static int kthSmallestInBST(BinaryTree binaryTree, int k){
+		List<Integer> traversedArray = inOrderTraverse(binaryTree);
+		if (traversedArray == null || traversedArray.size() == 0 || traversedArray.size() < k ||
+				!CollectionUtils.isSorted(traversedArray)){
+			return -1;
+		}
+		return traversedArray.get(k-1);
 	}
 }

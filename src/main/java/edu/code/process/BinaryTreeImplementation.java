@@ -2,7 +2,7 @@ package edu.code.process;
 
 import edu.code.model.BinaryTree;
 import edu.code.model.BinaryTreeNode;
-import edu.code.process.utility.BinaryTreeUtility;
+import static edu.code.process.utility.BinaryTreeUtility.*;
 import edu.code.process.utility.CollectionUtils;
 
 public class BinaryTreeImplementation {
@@ -13,10 +13,13 @@ public class BinaryTreeImplementation {
 		BinaryTree balancedBinaryTree = getBalancedBinaryTree();
 
 		System.out.println("isBinaryTreeBalanced with Traverse:" + bti.isBinaryTreeBalanced(binaryTree));
-		System.out.println("isBinaryTreeBalanced :" + (BinaryTreeUtility.maxDepth(binaryTree.getRoot()) - BinaryTreeUtility.minDepth(binaryTree.getRoot()) < 2));
+		System.out.println("isBinaryTreeBalanced :" + (maxDepth(binaryTree.getRoot()) - minDepth(binaryTree.getRoot()) < 2));
 		
-		System.out.println("is BinaryTree BST : "+ CollectionUtils.isSorted(BinaryTreeUtility.inOrderTraverse(binaryTree)));
-		System.out.println("is BinaryTree BST : "+ CollectionUtils.isSorted(BinaryTreeUtility.inOrderTraverse(balancedBinaryTree)));
+		System.out.println("is BinaryTree BST : "+ CollectionUtils.isSorted(inOrderTraverse(binaryTree)));
+		System.out.println("is BinaryTree BST : "+ CollectionUtils.isSorted(inOrderTraverse(balancedBinaryTree)));
+
+		System.out.println("kth(2nd) smallest in BST : " + kthSmallestInBST(balancedBinaryTree, 2));
+		System.out.println("kth(2nd) smallest in Not BST : " + kthSmallestInBST(binaryTree, 2));
 
 	}
 
@@ -35,7 +38,7 @@ public class BinaryTreeImplementation {
 	}
 	
 	private boolean isBinaryTreeBalanced(BinaryTree binaryTree){
-		BinaryTreeUtility.inOrderTraverse(binaryTree);
+		inOrderTraverse(binaryTree);
 		return binaryTree.getMaxDepth() - binaryTree.getMinDepth() < 2;
 	}
 
