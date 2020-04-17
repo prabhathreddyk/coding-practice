@@ -1,15 +1,35 @@
 package edu.code.process.utility;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.code.model.BinaryTree;
 import edu.code.model.BinaryTreeNode;
 
 public class BinaryTreeUtility {
+	
+	public static List<Integer> inOrderTraverse(BinaryTree binaryTree){
+		List<Integer> traversedArray = new ArrayList<Integer>();
+		inOrderTraverse( binaryTree.getRoot(), 1, binaryTree,  traversedArray);
+		System.out.println("InOrder Traverse : "+ traversedArray.toString());
+		return traversedArray;
+	}
 
-	public static void inOrderTraverse(BinaryTreeNode node, int currentDepth, BinaryTree binaryTree) {
+	/**
+	 * InOrder Traverse Left -> Root -> Right
+	 * @param node
+	 * @param currentDepth
+	 * @param binaryTree
+	 */
+	public static void inOrderTraverse(BinaryTreeNode node, int currentDepth, BinaryTree binaryTree, List<Integer> traversedArray) {
+		if (traversedArray == null){
+			traversedArray = new ArrayList<Integer>();
+		}
 		if (node == null){
 			return;
 		}
 		if ( node.getLeft() == null && node.getRight() == null){
+			traversedArray.add(node.getValue());
 			binaryTree.setMaxDepth(binaryTree.getMaxDepth() > currentDepth 
 					? binaryTree.getMaxDepth() : currentDepth);
 			binaryTree.setMinDepth(binaryTree.getMinDepth() != 0
@@ -17,8 +37,12 @@ public class BinaryTreeUtility {
 							binaryTree.getMinDepth() : currentDepth);
 			return;
 		}
-		inOrderTraverse(node.getLeft(), currentDepth+1, binaryTree);
-		inOrderTraverse(node.getRight(), currentDepth+1, binaryTree);
+		// Left
+		inOrderTraverse(node.getLeft(), currentDepth+1, binaryTree, traversedArray);
+		// Root
+		traversedArray.add(node.getValue());
+		// Right
+		inOrderTraverse(node.getRight(), currentDepth+1, binaryTree, traversedArray);
 	}
 	
 	public static int maxDepth(BinaryTreeNode node){
