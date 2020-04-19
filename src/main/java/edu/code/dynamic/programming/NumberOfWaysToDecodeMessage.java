@@ -2,6 +2,13 @@ package edu.code.dynamic.programming;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * If a = 1, b=2, c=3 ..., z=26 
+ * Data "12" can be decoded as "ab" (a-1, b-2) or "L" (l-12)
+ * This function will return number of ways we can decode a message for given data string
+ * @author prabhathkatta
+ *
+ */
 public class NumberOfWaysToDecodeMessage {
 	
 	static AtomicInteger atomicInteger1 = new AtomicInteger();  

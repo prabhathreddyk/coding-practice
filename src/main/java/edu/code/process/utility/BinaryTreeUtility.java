@@ -47,7 +47,7 @@ public class BinaryTreeUtility {
 	}
 	
 	/**
-	 * InOrder Traversal using Recursive
+	 * InOrder Traversal using Iterative
 	 * @param binaryTree
 	 * @return
 	 */
@@ -95,6 +95,128 @@ public class BinaryTreeUtility {
 		return traversedArray;
 	}
 	
+	public static List<Integer> preOrderTraversal(BinaryTree binaryTree){
+		List<Integer> traveredArray = new ArrayList<Integer>();
+		preOrderTraversal(binaryTree.getRoot(), traveredArray);
+		System.out.println("Pre Order travered string: "+traveredArray);
+		return traveredArray;
+	}
+	
+	/**
+	 * PreOrder Recursive Root -> Left -> Right
+	 * @param node
+	 * @param traveredArray
+	 */
+	private static void preOrderTraversal(BinaryTreeNode node, List<Integer> traveredArray) {
+		if (node == null)
+			return;
+		//Root or Lead Node
+		traveredArray.add(node.getValue());
+		//Left
+		preOrderTraversal(node.getLeft(), traveredArray);
+		//Right
+		preOrderTraversal(node.getRight(), traveredArray);
+	}
+	
+	public static List<Integer> preOrderIterative(BinaryTree binaryTree){
+		List<Integer> traveredArray = new ArrayList<Integer>();
+		preOrderIterative(binaryTree.getRoot(), traveredArray, new Stack<BinaryTreeNode>());
+		return traveredArray;
+	}
+	
+	/**
+	 * PreOrder Iterative Root -> Left -> Right
+	 * @param node
+	 * @param traversedArray
+	 * @param stack
+	 */
+	private static void preOrderIterative(BinaryTreeNode node, List<Integer> traversedArray, Stack<BinaryTreeNode> stack){
+		
+		while(true){
+			if (node == null){
+				if (stack.isEmpty()){
+					break;
+				}
+				// Fetch Right After pop i.e Node is already visited and its Left if exists already visited
+				node = stack.pop().getRight();
+				if (node == null){
+					continue;
+				}
+			} 
+			
+			//Root
+			traversedArray.add(node.getValue());
+			stack.push(node);
+			
+			//Left
+			node = node.getLeft();
+			
+		}
+		
+		
+	}
+	
+	public static List<Integer> postOrder(BinaryTree binaryTree){
+		List<Integer> traveredArray = new ArrayList<Integer>();
+		postOrder(binaryTree.getRoot(), traveredArray);
+		return traveredArray;
+	}
+
+	/**
+	 * PostOrder Recursive Left -> Right -> Root
+	 * @param root
+	 * @param traveredArray
+	 */
+	private static void postOrder(BinaryTreeNode node,
+			List<Integer> traveredArray) {
+		if (node == null){
+			return;
+		}
+		//Left
+		postOrder(node.getLeft(), traveredArray);
+		//Right
+		postOrder(node.getRight(), traveredArray);
+
+		//Root or Leaf Node
+		traveredArray.add(node.getValue());
+	}
+	
+	public static List<Integer> postOrderIterative(BinaryTree binaryTree){
+		List<Integer> traveredArray = new ArrayList<Integer>();
+		postOrderIterative(binaryTree.getRoot(), traveredArray, new Stack<BinaryTreeNode>());
+		return traveredArray;
+	}
+
+	private static void postOrderIterative(BinaryTreeNode node,
+			List<Integer> traveredArray, Stack<BinaryTreeNode> stack) {
+		while(true){
+			if (node == null){
+				if (stack.isEmpty()){
+					break;
+				}
+				node = stack.peek();
+				if (node.getRight() != null && !traveredArray.contains(node.getRight().getValue())){
+					node = node.getRight();
+				} else {
+					node = stack.pop();
+					traveredArray.add(node.getValue());
+					// Left, Right, Root all are visited. So continue popping
+					node = null;
+				}
+				
+			} else{
+				stack.push(node);
+				//Left
+				if (node.getLeft() != null){
+					node = node.getLeft();
+					continue;
+				}
+				node = node.getRight();
+			}
+		}
+		
+	}
+
 	/**
 	 * Returns Max Depth in a Binary Tree
 	 * @param node
