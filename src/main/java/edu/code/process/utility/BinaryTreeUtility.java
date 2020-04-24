@@ -235,10 +235,25 @@ public class BinaryTreeUtility {
 	 * @return
 	 */
 	public static int minDepth(BinaryTreeNode node){
-		if (node == null){
+		if (node == null || (node.getLeft()==null && node.getRight()==null)){
 			return 0;
 		}
-		return 1+ Math.min(maxDepth(node.getLeft()), maxDepth(node.getRight()));
+		int leftDepth=0;
+		if (node.getLeft() != null){
+			leftDepth = 1+minDepth(node.getLeft());
+		}
+		int rightDepth=0;
+		if (node.getRight()!=null){
+			rightDepth=1+minDepth(node.getRight());
+		}
+		if (leftDepth > 0 && rightDepth >0){
+			return Math.min(leftDepth, rightDepth);
+		} else if (leftDepth > 0){
+			return leftDepth;
+		} else {
+			return rightDepth;
+		}
+		
 	}
 	
 	/**
