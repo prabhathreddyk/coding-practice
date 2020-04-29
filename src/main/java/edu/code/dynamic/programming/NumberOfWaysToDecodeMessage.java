@@ -14,7 +14,7 @@ public class NumberOfWaysToDecodeMessage {
 	static AtomicInteger atomicInteger1 = new AtomicInteger();  
 	static AtomicInteger atomicInteger2 = new AtomicInteger();  
 	public static void main(String[] args) {
-		String data = "1111111111111111";
+		String data = "11111111111123546";
 		System.out.println("Number of ways to decode : " + num_ways(data.toCharArray(),0) + ", Iterations : "+ atomicInteger1.get());
 
 		System.out.println("Number of ways to decode : " + num_ways(data.toCharArray(),0, new int[data.length()])+ ", Iterations : "+ atomicInteger2.get());
