@@ -190,4 +190,42 @@ public class GraphUtility {
 		return shortestDist;
 	}
 	
+	/**
+	 * Get number of Islands which are surrounded by water
+	 * water - 0
+	 * land - 1
+	 * @param islandGrid
+	 * @return
+	 */
+	public static int getNumberOfIslands(int[][] islandGrid){
+		int count = 0;
+		for (int i=0;i<islandGrid.length;i++){
+			for (int j=0;j<islandGrid[i].length;j++){
+				if (islandGrid[i][j] == 1){
+					count++;
+					DFSTraverseInGrid(islandGrid, i, j);
+				}
+			}
+		}
+		return count;
+	}
+
+	private static void DFSTraverseInGrid(int[][] islandGrid, int i, int j) {
+		// Mark node as visited with -1
+		islandGrid[i][j] = -1;
+		
+		// check adjacent matrix grid nodes i.e move horizontal left and right keeping x=0 {0,1}, {0,-1}
+		// Similarly move up and down in y direction keeping y coordinate as 0 {1,0}, {-1,0}
+		int[][] directions = {{0,1}, {0,-1},{1,0}, {-1,0}};
+		for (int[] dir : directions){
+			int row = i+dir[0];
+			int col = j+dir[1];
+			//check if x and y are in matrix bounded lengths 
+			if (row >= 0 && row<islandGrid[i].length && col >=0 && col <islandGrid.length && islandGrid[row][col] == 1){
+				DFSTraverseInGrid(islandGrid, row, col);
+			}
+		}
+		
+	}
+	
 }

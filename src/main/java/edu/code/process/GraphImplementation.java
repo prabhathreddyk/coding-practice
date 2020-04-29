@@ -23,6 +23,10 @@ public class GraphImplementation {
 		int[][] adjacencyMatrix = {{0,1,0,0,0,0},{1,0,1,1,0,0},{0,1,0,1,0,0},{0,1,0,0,0,0},{0,0,0,0,0,1},{0,0,0,0,1,0}};
 		System.out.println("Number of connected graphs(Adjacency Matrix) unDirected : "+getNumberOfConnectedComponents(adjacencyMatrix));
 		System.out.println("Shortest distance : "+ getShortestDistance(adjacencyMatrix, 0, 3));
+		
+		// Number of Islands
+		int[][] islandGrid = {{1,1,0,1},{0,1,0,0},{0,0,1,1},{0,1,1,0}};
+		System.out.println("Number of islands : "+ getNumberOfIslands(islandGrid));
 
 
 	}
