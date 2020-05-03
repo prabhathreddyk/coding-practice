@@ -20,13 +20,20 @@ public class GraphImplementation {
 		System.out.println("Shortest distance : "+ getShortestDistance(graph, 0, 3));
 		
 		//Graph represented in Adjacency Matrix
-		int[][] adjacencyMatrix = {{0,1,0,0,0,0},{1,0,1,1,0,0},{0,1,0,1,0,0},{0,1,0,0,0,0},{0,0,0,0,0,1},{0,0,0,0,1,0}};
-		System.out.println("Number of connected graphs(Adjacency Matrix) unDirected : "+getNumberOfConnectedComponents(adjacencyMatrix));
+		int[][] adjacencyMatrix = {{0,1,0,0,1,0},{1,0,1,1,0,0},{0,1,0,1,0,0},{0,1,0,0,0,0},{0,0,0,0,0,0},{0,0,0,0,0,0}};
+		
+		// Connected components or Friends circle
+		System.out.println("Number of connected graphs(Adjacency Matrix) unDirected Recursive: "+getNumberOfConnectedComponents(adjacencyMatrix));
+		System.out.println("Number of connected graphs(Adjacency Matrix) unDirected Iterative: "+getNumberOfConnectedComponents(adjacencyMatrix));
+
 		System.out.println("Shortest distance : "+ getShortestDistance(adjacencyMatrix, 0, 3));
 		
 		// Number of Islands
 		int[][] islandGrid = {{1,1,0,1},{0,1,0,0},{0,0,1,1},{0,1,1,0}};
-		System.out.println("Number of islands : "+ getNumberOfIslands(islandGrid));
+		System.out.println("Number of islands Recursive: "+ getNumberOfIslands(islandGrid));
+		// re-initialize
+		int[][] islandGridIterative = {{1,1,0,0},{0,1,0,0},{0,0,1,1},{0,1,1,0}};
+		System.out.println("Number of islands Iterative: "+ getNumberOfIslandsIterative(islandGridIterative));
 
 
 	}

@@ -2,6 +2,7 @@ package edu.code.process.utility;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Stack;
 
 import edu.code.model.Graph;
 import edu.code.model.GraphEdge;
@@ -139,6 +140,47 @@ public class GraphUtility {
 	}
 	
 	/**
+	 * Get Number of connected components when graph is represented in 
+	 * Adjacency Matrix representation of graph
+	 * @param graph
+	 * @return
+	 */
+	public static int getNumberOfConnectedComponentsIterative(int[][] adjacencyMatrix){
+		int count = 0;
+		
+		boolean[] visited = new boolean[adjacencyMatrix.length];
+		for (int i=0;i<adjacencyMatrix.length;i++){
+			if (!visited[i]){
+				count++;
+				Stack<Integer> stack = new Stack<Integer>();
+				visited[i]=true;
+				stack.push(i);
+				while(true){
+					if (stack.isEmpty())
+						break;
+					int source = stack.pop();
+					if (adjacencyMatrix.length <= source ){
+						continue;
+					}
+					for (int j=0;j<adjacencyMatrix[source].length;j++){
+						if (i==j){
+							continue;
+						}
+						if (adjacencyMatrix[source][j] == 1 && !visited[j]){
+							stack.push(j);
+							visited[j]=true;
+						}
+					}
+				}
+			}
+		}
+		
+		return count;
+		
+	}
+	
+	
+	/**
 	 * Retrieves shortest path and shortest distance between two nodes in a graph
 	 * It is using recursive dynamic programming
 	 * @param adjacencyMatrix : Graph represented in adjacency matrix
@@ -227,5 +269,51 @@ public class GraphUtility {
 		}
 		
 	}
+	
+	/**
+	 * Get number of Islands which are surrounded by water
+	 * water - 0
+	 * land - 1
+	 * @param islandGrid
+	 * @return
+	 */
+	public static int getNumberOfIslandsIterative(int[][] islandGrid){
+		
+		int count = 0;
+		for (int i=0;i<islandGrid.length;i++){
+			for (int j=0;j<islandGrid[i].length;j++){
+				if (islandGrid[i][j] == 1){
+					count++;
+					Stack<int[]> stack = new Stack<int[]>();
+					pushToStack(islandGrid, i, j, stack);
+					while(true){
+						if (stack.isEmpty())
+							break;
+						int[] currentNode = stack.pop();
+						int[][] directions = {{0,1},{0,-1},{1,0},{-1,0}};
+						for (int[] dir : directions){
+							int row = currentNode[0] + dir[0];
+							int col = currentNode[1] + dir[1];
+							if (row >= 0 && row<islandGrid[i].length && col >=0 && col <islandGrid.length && islandGrid[row][col] == 1){
+								pushToStack(islandGrid, row, col, stack);
+							}
+						}
+					}
+				}
+			}
+		}
+		return count;
+		
+	}
+
+	private static void pushToStack(int[][] islandGrid, int i, int j,
+			Stack<int[]> stack) {
+		int[] currentNode = {i,j};
+		// Mark as visited
+		islandGrid[i][j] = -1;
+		stack.push(currentNode);
+	}
+	
+	
 	
 }
