@@ -47,7 +47,7 @@ public class BinaryTreeUtility {
 	}
 	
 	/**
-	 * InOrder Traversal using Iterative
+	 * InOrder Traversal using Iterative. See also below alternate solution
 	 * @param binaryTree
 	 * @return
 	 */
@@ -95,6 +95,36 @@ public class BinaryTreeUtility {
 		return traversedArray;
 	}
 	
+	/**
+	 * InOrder traversal iterative
+	 * @param BinaryTreeNode root
+	 * @return
+	 */
+	public List<Integer> inorderIterativeTraversal(BinaryTreeNode root) {
+        List<Integer> path = new ArrayList<Integer>();
+        if (root == null){
+            return path;
+        }
+        Stack<BinaryTreeNode> stack = new Stack<BinaryTreeNode>();
+        BinaryTreeNode node = root.getLeft();
+        stack.push(root);
+        
+        while(true){
+            if (node == null){
+                if (stack.isEmpty())
+                    break;
+                node = stack.pop();
+                path.add(node.getValue());
+                node = node.getRight();
+                continue;
+            }
+            
+            stack.push(node);
+            node = node.getLeft();            
+        }
+        return path;
+    }
+	
 	public static List<Integer> preOrderTraversal(BinaryTree binaryTree){
 		List<Integer> traveredArray = new ArrayList<Integer>();
 		preOrderTraversal(binaryTree.getRoot(), traveredArray);
@@ -118,43 +148,35 @@ public class BinaryTreeUtility {
 		preOrderTraversal(node.getRight(), traveredArray);
 	}
 	
-	public static List<Integer> preOrderIterative(BinaryTree binaryTree){
-		List<Integer> traveredArray = new ArrayList<Integer>();
-		preOrderIterative(binaryTree.getRoot(), traveredArray, new Stack<BinaryTreeNode>());
-		return traveredArray;
-	}
-	
 	/**
 	 * PreOrder Iterative Root -> Left -> Right
 	 * @param node
 	 * @param traversedArray
 	 * @param stack
 	 */
-	private static void preOrderIterative(BinaryTreeNode node, List<Integer> traversedArray, Stack<BinaryTreeNode> stack){
-		
-		while(true){
-			if (node == null){
-				if (stack.isEmpty()){
-					break;
-				}
-				// Fetch Right After pop i.e Node is already visited and its Left if exists already visited
-				node = stack.pop().getRight();
-				if (node == null){
-					continue;
-				}
-			} 
+	public static List<Integer> preOrderIterative(BinaryTree binaryTree){
+		List<Integer> traversedArray = new ArrayList<Integer>();
+		BinaryTreeNode root = binaryTree.getRoot();
+		if (root == null){
+			return traversedArray;
+		}
+		Stack<BinaryTreeNode> stack = new Stack<BinaryTreeNode>();
+		stack.push(root);
+		while( !stack.isEmpty()){
+			BinaryTreeNode node = stack.pop();
 			
-			//Root
 			traversedArray.add(node.getValue());
-			stack.push(node);
-			
-			//Left
-			node = node.getLeft();
-			
+			// First push right 
+			if (node.getRight() != null)
+				stack.push(node.getRight());
+			// push left to stack
+			if (node.getLeft() != null)
+				stack.push(node.getLeft());
 		}
 		
-		
+		return traversedArray;
 	}
+	
 	
 	public static List<Integer> postOrder(BinaryTree binaryTree){
 		List<Integer> traveredArray = new ArrayList<Integer>();
@@ -182,40 +204,36 @@ public class BinaryTreeUtility {
 	}
 	
 	public static List<Integer> postOrderIterative(BinaryTree binaryTree){
-		List<Integer> traveredArray = new ArrayList<Integer>();
-		postOrderIterative(binaryTree.getRoot(), traveredArray, new Stack<BinaryTreeNode>());
-		return traveredArray;
+		return postOrderIterative(binaryTree.getRoot());
 	}
 
-	private static void postOrderIterative(BinaryTreeNode node,
-			List<Integer> traveredArray, Stack<BinaryTreeNode> stack) {
-		while(true){
-			if (node == null){
-				if (stack.isEmpty()){
-					break;
-				}
-				node = stack.peek();
-				if (node.getRight() != null && !traveredArray.contains(node.getRight().getValue())){
-					node = node.getRight();
-				} else {
-					node = stack.pop();
-					traveredArray.add(node.getValue());
-					// Left, Right, Root all are visited. So continue popping
-					node = null;
-				}
-				
-			} else{
-				stack.push(node);
-				//Left
-				if (node.getLeft() != null){
-					node = node.getLeft();
-					continue;
-				}
-				node = node.getRight();
-			}
-		}
-		
-	}
+	private static List<Integer> postOrderIterative(BinaryTreeNode root) {
+        List<Integer> path = new ArrayList<Integer>();
+        if (root == null)
+            return path;
+        Stack<BinaryTreeNode> stack = new Stack<BinaryTreeNode>();
+        stack.push(root);
+        BinaryTreeNode node = root.getLeft();
+        BinaryTreeNode lastPoped = null;
+        while(true){
+            if(node == null){
+                if (stack.isEmpty()){
+                    break;
+                }
+                BinaryTreeNode temp = stack.peek();
+                if (temp.getRight() == null || temp.getRight() == lastPoped){
+                    lastPoped = stack.pop();
+                    path.add(temp.getValue());
+                    continue;
+                }else{
+                    node = temp.getRight();
+                }
+            }
+            stack.push(node);
+            node = node.getLeft();
+        }
+        return path;
+    }
 
 	/**
 	 * Returns Max Depth in a Binary Tree
@@ -270,4 +288,29 @@ public class BinaryTreeUtility {
 		}
 		return traversedArray.get(k-1);
 	}
+	
+	/**
+	 * Check if tree is Symmetric
+	 * @param root
+	 * @return
+	 */
+	public boolean isSymmetric(BinaryTreeNode root) {
+        if (root == null || (root.getLeft() == null && root.getRight() == null))
+            return true;
+        return checkIsSymmetric(root.getLeft(), root.getRight());
+        
+    }
+    
+    private boolean checkIsSymmetric(BinaryTreeNode left, BinaryTreeNode right){
+        if (left == null && right == null)
+            return true;
+        
+        if (left != null && right != null && left.getValue() == right.getValue()){
+            if (!checkIsSymmetric(left.getRight(), right.getLeft()) || !checkIsSymmetric(left.getLeft(), right.getRight()))
+                return false;
+                
+        }else
+            return false;
+        return true;
+    }
 }

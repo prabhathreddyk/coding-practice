@@ -3,6 +3,7 @@ package edu.code.process;
 public class LinkedListImplementation {
 
 	public static void main(String[] args) {
+
 		ListNode head = createLL();
 		printLL(head);
 		head = reverseList(head);
@@ -25,6 +26,9 @@ public class LinkedListImplementation {
 		System.out.println("Is palindrome: "+ check);
 		addTwoNumbers(head, head);
 		addTwoNumbersRecursive(head, head);
+		
+		//rotate the list to the right by k places
+		rotateRight(head, 15);
 	}
 
 	private static ListNode getEndOfFirstHalf(ListNode head) {
@@ -139,5 +143,33 @@ public class LinkedListImplementation {
        return node;
                   
     }
-
+    
+    public static ListNode rotateRight(ListNode head, int k) {
+        if (head == null || k == 0)
+            return head;
+        
+        ListNode currentNode = head;
+        int length = 1;
+        ListNode node = head;
+        ListNode prev = null;
+        while(currentNode.next != null){
+            length++;
+            if (--k <= 0 ){
+                prev = node;
+                node = node.next;
+            }
+                
+            currentNode = currentNode.next;
+        }
+        
+        if (k > 0){
+            k = (k+length-1)%length;
+            return rotateRight(head, k);           
+        }
+        
+        currentNode.next = head;
+        prev.next = null;
+        return node;
+    }
+    
 }
