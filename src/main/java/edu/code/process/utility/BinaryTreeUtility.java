@@ -9,6 +9,7 @@ import edu.code.model.BinaryTreeNode;
 
 public class BinaryTreeUtility {
 	
+	private int output = 0;
 	public static List<Integer> inOrderTraverse(BinaryTree binaryTree){
 		List<Integer> traversedArray = new ArrayList<Integer>();
 		inOrderTraverse( binaryTree.getRoot(), 1, binaryTree,  traversedArray);
@@ -312,5 +313,40 @@ public class BinaryTreeUtility {
         }else
             return false;
         return true;
+    }
+    
+    /**
+     * Given a binary tree, count the number of uni-value subtrees.
+     * A Uni-value subtree means all nodes of the subtree have the same value.
+     * @param root
+     * @return
+     */
+    public int countUnivalSubtrees(BinaryTreeNode root) {
+        checkUnivalSubtree(root);
+        return output;
+    }
+    
+    private boolean checkUnivalSubtree(BinaryTreeNode node){
+        if (node == null)
+            return false;
+        if (node.getLeft() == null && node.right == null){
+            output++;
+            return true;
+        }
+        boolean leftChildStatus = false;
+        boolean rightChildStatus = false;
+        if (node.left == null || (checkUnivalSubtree(node.left) && node.left.value == node.value)){
+            leftChildStatus = true; 
+        }
+        
+        if (node.right == null || (checkUnivalSubtree(node.right) && node.right.value == node.value)){
+            rightChildStatus = true; 
+        }
+        
+        if (leftChildStatus && rightChildStatus){
+            output++;
+            return true;
+        }
+        return false;
     }
 }

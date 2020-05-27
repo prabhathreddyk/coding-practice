@@ -2,9 +2,9 @@ package edu.code.model;
 
 public class BinaryTreeNode {
 
-	private int value;
-	private BinaryTreeNode left;
-	private BinaryTreeNode right;
+	public int value;
+	public BinaryTreeNode left;
+	public BinaryTreeNode right;
 	public int getValue() {
 		return value;
 	}
