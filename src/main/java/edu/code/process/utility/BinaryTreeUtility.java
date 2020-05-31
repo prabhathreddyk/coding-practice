@@ -1,7 +1,9 @@
 package edu.code.process.utility;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 import edu.code.model.BinaryTree;
@@ -9,6 +11,7 @@ import edu.code.model.BinaryTreeNode;
 
 public class BinaryTreeUtility {
 	
+	private static int pindex=0;
 	private int output = 0;
 	public static List<Integer> inOrderTraverse(BinaryTree binaryTree){
 		List<Integer> traversedArray = new ArrayList<Integer>();
@@ -349,4 +352,64 @@ public class BinaryTreeUtility {
         }
         return false;
     }
+    
+    /**
+     * Given post Order and In order traversal. Construct Binary tree.
+     * @param inorder
+     * @param postorder
+     * @return
+     */
+    public static BinaryTreeNode buildTree(int[] inorder, int[] postorder) {
+        if (inorder == null || inorder.length == 0)
+            return null;
+        pindex = postorder.length-1;
+        Map<Integer, Integer> inMap = new HashMap<Integer, Integer>(inorder.length);
+        for (int i=0;i<inorder.length;i++)
+            inMap.put(inorder[i], i);
+        return buildTree(inorder, postorder, 0, inorder.length-1, inMap);
+        
+    }
+    
+    private static BinaryTreeNode buildTree(int[] inorder, int[] postorder, int start, int last, Map<Integer, Integer> inMap){
+        if (start > last)
+            return null;
+        
+        BinaryTreeNode root = new BinaryTreeNode(postorder[pindex--]);
+        int position = inMap.get(root.getValue());
+        root.right = buildTree(inorder, postorder, position+1, last, inMap);
+        root.left = buildTree(inorder, postorder, start, position-1, inMap);
+
+
+        return root;
+    }
+    
+    /**
+     * Given pre Order and In order traversal. Construct Binary tree.
+     * @param inorder
+     * @param postorder
+     * @return
+     */
+    public static BinaryTreeNode preorderbuildTree(int[] inorder, int[] postorder) {
+        if (inorder == null || inorder.length == 0)
+            return null;
+        pindex = 0;
+        Map<Integer, Integer> inMap = new HashMap<Integer, Integer>(inorder.length);
+        for (int i=0;i<inorder.length;i++)
+            inMap.put(inorder[i], i);
+        return preorderbuildTree(inorder, postorder, 0, inorder.length-1, inMap);
+        
+    }
+    
+    private static BinaryTreeNode preorderbuildTree(int[] inorder, int[] postorder,
+    		int start, int last, Map<Integer, Integer> inMap){
+        if (start > last)
+            return null;
+        
+        BinaryTreeNode root = new BinaryTreeNode(postorder[pindex++]);
+        int position = inMap.get(root.getValue());
+        root.left = buildTree(inorder, postorder, start, position-1, inMap);
+        root.right = buildTree(inorder, postorder, position+1, last, inMap);
+        return root;
+    }
+    
 }

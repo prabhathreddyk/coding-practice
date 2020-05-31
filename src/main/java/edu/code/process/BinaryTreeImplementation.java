@@ -8,7 +8,7 @@ import edu.code.process.utility.CollectionUtils;
 public class BinaryTreeImplementation {
 
 	public static void main(String[] args) {
-		BinaryTreeImplementation bti = new BinaryTreeImplementation();
+		/*BinaryTreeImplementation bti = new BinaryTreeImplementation();
 		BinaryTree binaryTree = getBinaryTree();
 		BinaryTree balancedBinaryTree = getBalancedBinaryTree();
 
@@ -28,7 +28,12 @@ public class BinaryTreeImplementation {
 		
 		// Recursive
 		System.out.println(" PreOrder Recursive: "+ preOrderTraversal(balancedBinaryTree));
-		System.out.println(" PostOrder Recursive: "+ postOrder(balancedBinaryTree));
+		System.out.println(" PostOrder Recursive: "+ postOrder(balancedBinaryTree));*/
+		
+		//Build Binary tree from Inorder and postOrder
+		int[] inorder = {9,3,15,20,7};
+		int[] postorder = {9,15,7,20,3};
+		System.out.println("Root element : " + buildTree(inorder, postorder));
 
 	}
 
