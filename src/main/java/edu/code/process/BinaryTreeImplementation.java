@@ -10,7 +10,7 @@ public class BinaryTreeImplementation {
 	public static void main(String[] args) {
 		BinaryTreeImplementation bti = new BinaryTreeImplementation();
 		BinaryTree binaryTree = getBinaryTree();
-		BinaryTree balancedBinaryTree = getBalancedBinaryTree();
+		/*BinaryTree balancedBinaryTree = getBalancedBinaryTree();
 
 		System.out.println("isBinaryTreeBalanced with Traverse:" + bti.isBinaryTreeBalanced(binaryTree));
 		System.out.println("isBinaryTreeBalanced :" + (maxDepth(binaryTree.getRoot()) - minDepth(binaryTree.getRoot()) < 2));
@@ -33,14 +33,18 @@ public class BinaryTreeImplementation {
 		//Build Binary tree from Inorder and postOrder
 		int[] inorder = {9,3,15,20,7};
 		int[] postorder = {9,15,7,20,3};
-		System.out.println("Root element : " + buildTree(inorder, postorder));
+		System.out.println("Root element : " + buildTree(inorder, postorder));*/
+		
+		System.out.println(serialize(binaryTree.getRoot()));
+		System.out.println(deserialize( serialize(binaryTree.getRoot())));
+
 
 	}
 
 	private static BinaryTree getBinaryTree() {
-		BinaryTree binaryTree = new BinaryTree(15);
-		binaryTree.getRoot().setLeft(new BinaryTreeNode(4, null, new BinaryTreeNode(6, new BinaryTreeNode(5, null, null), null)));
-		binaryTree.getRoot().setRight(new BinaryTreeNode(12, new BinaryTreeNode(3, new BinaryTreeNode(8, null, null), null), null));
+		BinaryTree binaryTree = new BinaryTree(1);
+		binaryTree.getRoot().setLeft(new BinaryTreeNode(2, null, null));
+		binaryTree.getRoot().setRight(new BinaryTreeNode(3, new BinaryTreeNode(4, null, null), new BinaryTreeNode(5, null, null)));
 		return binaryTree;
 	}
 	

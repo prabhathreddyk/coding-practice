@@ -2,8 +2,10 @@ package edu.code.process.utility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Stack;
 
 import edu.code.model.BinaryTree;
@@ -410,6 +412,102 @@ public class BinaryTreeUtility {
         root.left = buildTree(inorder, postorder, start, position-1, inMap);
         root.right = buildTree(inorder, postorder, position+1, last, inMap);
         return root;
+    }
+    
+    /**
+     * 
+     * @param root
+     * @return
+     */
+    public static String serialize(BinaryTreeNode root) {
+        if (root == null)
+            return "";
+        Queue<BinaryTreeNode> queue = new LinkedList<BinaryTreeNode>();
+        BinaryTreeNode empty = new BinaryTreeNode(-1);
+        queue.add(root);
+        StringBuilder sb = new StringBuilder();
+        while(!queue.isEmpty()){
+        	BinaryTreeNode node = queue.remove();
+        	if (node != empty){
+                sb.append(node.getValue()).append(",");
+                queue.add(node.left == null ? empty : node.left);
+                queue.add(node.right == null ? empty : node.right);
+            }else{
+                sb.append("null").append(",");
+            }
+        }
+        return sb.toString().substring(0, sb.length()-1);
+        
+    }
+    
+    // Decodes your encoded data to tree.
+    public static BinaryTreeNode deserialize(String data) {
+        if (data == null || data.equals(""))
+            return null;
+        String[] values = data.split(",");
+        Queue<BinaryTreeNode> queue = new LinkedList<BinaryTreeNode>();
+        BinaryTreeNode root = new BinaryTreeNode(Integer.valueOf(values[0]));
+        queue.add(root);
+        for (int i=1; i<values.length;i++){
+            BinaryTreeNode node = queue.remove();
+            
+            node.left = addNodeToQueue(values[i++], queue);
+            node.right = addNodeToQueue(values[i], queue);            
+
+        }
+        return root;
+    }
+    
+    private static BinaryTreeNode addNodeToQueue(String val, Queue<BinaryTreeNode> queue){
+        if (!val.equals("null")){
+        	BinaryTreeNode node = new BinaryTreeNode(Integer.valueOf(val));
+            queue.add(node);
+            return node;
+        }
+        return null;
+    }
+    
+    // Given an integer n, generate all structurally unique BST's (binary search trees) that store values 1 ... n.
+    public List<BinaryTreeNode> generateTrees(int n) {
+        if (n==0)
+            return new ArrayList<BinaryTreeNode>();
+        return generateTrees( 1, n); 
+    }
+    
+    private List<BinaryTreeNode> generateTrees(int start, int end){
+        if (start > end)
+            return null;
+        List<BinaryTreeNode> treeList = new ArrayList<BinaryTreeNode>();
+        for (int i=start; i<=end;i++){
+            
+            List<BinaryTreeNode> leftList = generateTrees(start, i-1);
+            List<BinaryTreeNode> rightList = generateTrees(i+1, end);
+            if (leftList == null && rightList == null)
+                treeList.add(new BinaryTreeNode(i));
+            else if (leftList == null) {
+                for (BinaryTreeNode rightNode : rightList){
+                    BinaryTreeNode node = new BinaryTreeNode(i);
+                    node.right = rightNode;
+                    treeList.add(node);
+                }
+            } else if (rightList == null) {
+                for (BinaryTreeNode leftNode : leftList){
+                    BinaryTreeNode node = new BinaryTreeNode(i);
+                    node.left = leftNode;
+                    treeList.add(node);
+                }
+            } else{
+                for (BinaryTreeNode leftNode : leftList){
+                    for (BinaryTreeNode rightNode : rightList){
+                        BinaryTreeNode node = new BinaryTreeNode(i);
+                        node.left = leftNode;
+                        node.right = rightNode;
+                        treeList.add(node);
+                    }
+                }
+            }
+        }
+        return treeList;
     }
     
 }
