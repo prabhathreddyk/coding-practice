@@ -35,16 +35,17 @@ public class BinaryTreeImplementation {
 		int[] postorder = {9,15,7,20,3};
 		System.out.println("Root element : " + buildTree(inorder, postorder));*/
 		
-		System.out.println(serialize(binaryTree.getRoot()));
-		System.out.println(deserialize( serialize(binaryTree.getRoot())));
+	//	System.out.println(serialize(binaryTree.getRoot()));
+	//	System.out.println(deserialize( serialize(binaryTree.getRoot())));
+		System.out.println(widthOfBinaryTree(binaryTree.getRoot()));
 
 
 	}
 
 	private static BinaryTree getBinaryTree() {
 		BinaryTree binaryTree = new BinaryTree(1);
-		binaryTree.getRoot().setLeft(new BinaryTreeNode(2, null, null));
-		binaryTree.getRoot().setRight(new BinaryTreeNode(3, new BinaryTreeNode(4, null, null), new BinaryTreeNode(5, null, null)));
+		binaryTree.getRoot().setLeft(new BinaryTreeNode(3, new BinaryTreeNode(5, null, null), null));
+		binaryTree.getRoot().setRight(new BinaryTreeNode(2, null, null));
 		return binaryTree;
 	}
 	

@@ -510,4 +510,83 @@ public class BinaryTreeUtility {
         return treeList;
     }
     
+    public boolean isValidBST(BinaryTreeNode root) {
+        if (root == null)
+            return true;
+        long min = Integer.MIN_VALUE;
+        long max = Integer.MAX_VALUE;
+        return isValidBST(root.left, min-1, root.value) && isValidBST(root.right, root.value, max+1);
+    }
+    
+    private boolean isValidBST(BinaryTreeNode root, long min, long max){
+        if (root == null)
+            return true;
+        if (root.value <= min || root.value >= max)
+            return false;
+        return isValidBST(root.left, min, root.value) && isValidBST(root.right, root.value, max);
+    }
+    
+    public static int widthOfBinaryTree(BinaryTreeNode root) {
+        if (root == null)
+            return 0;
+        Queue<BinaryTreeNode> queue = new LinkedList<BinaryTreeNode>();
+        queue.add(root);
+        BinaryTreeNode nul = new BinaryTreeNode(-1);
+        BinaryTreeNode end = new BinaryTreeNode(-1);
+        queue.add(end);
+        boolean hasChild = false;
+        int count = 0;
+        int tempCount = 0;
+        int maxWidth = 0;
+        boolean isLastRow = false;
+        while(!queue.isEmpty() && !isLastRow){
+        	BinaryTreeNode node = queue.remove();
+            if(node == end){
+            	maxWidth = Math.max(maxWidth, count);
+                if (!hasChild){
+                	isLastRow = true;
+                	break;
+                }
+                hasChild=false;	
+                while(true){
+                    if (queue.isEmpty()){
+                        break;
+                    }                        
+                    if (queue.peek() == nul)
+                        queue.remove();
+                    else{
+                        queue.add(end);
+                        count=0;
+                        tempCount=0;
+                        break;
+                    }
+                }
+            }else{
+                tempCount++;
+                if (node != nul)
+                    count = tempCount;
+                if (node.left != null || node.right != null)
+                    hasChild=true;
+                queue.add(node.left == null ? nul : node.left);
+                queue.add(node.right == null ? nul : node.right);
+            }
+        }
+        return maxWidth;
+    }
+    
+    /*private int max = 1;
+    public int widthOfBinaryTree(TreeNode root) {
+        if (root == null) return 0;
+        List<Integer> startOfLevel = new LinkedList<>();
+        helper(root, 0, 1, startOfLevel);
+        return max;
+    }
+    public void helper(TreeNode root, int level, int index, List<Integer> list) {
+        if (root == null) return;
+        if (level == list.size()) list.add(index);
+        max = Math.max(max, index + 1 - list.get(level));
+        helper(root.left, level + 1, index * 2, list);
+        helper(root.right, level + 1, index * 2 + 1, list);
+    }*/
+    
 }
